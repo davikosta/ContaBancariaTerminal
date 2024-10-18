@@ -16,36 +16,60 @@ public class ContaBancariaTerminal {
         return numeroDaAgencia;
     }
 
-    public void setNumeroDaAgencia(String numeroDaAgencia) {
+    public String verificacaoDeCaracteres(int atributoAserVerificado) {
+
         var mensagem = new Mensagens();
-        if (numeroDaAgencia.length() != 5) {
+        String resultado = "Fail";
+        if (String.valueOf(atributoAserVerificado).length() != 5) {
             mensagem.exibir(mensagem.erroDeQuantidadeDeCaracter);
-            return;
+        } else {
+            resultado = "Pass";
         }
-        this.numeroDaAgencia = numeroDaAgencia;
+        return resultado;
+    }
+
+    public String verificacaoDeCaracteres(String atributoAserVerificado) {
+
+        var mensagem = new Mensagens();
+        String resultado = "Fail";
+        if (atributoAserVerificado.length() != 5) {
+            mensagem.exibir(mensagem.erroDeQuantidadeDeCaracter);
+        } else {
+            resultado = "Pass";
+        }
+         return resultado;
+    }
+
+    public void setNumeroDaAgencia(String numeroDaAgencia) {
+
+        if (verificacaoDeCaracteres(numeroDaAgencia).equals("Pass") ) {this.numeroDaAgencia = numeroDaAgencia;}
     }
 
     public void setNumeroDaConta(int numeroDaConta) {
 
-        this.numeroDaConta = numeroDaConta;
+        if (verificacaoDeCaracteres(numeroDaConta).equals("Pass") ) {this.numeroDaConta = numeroDaConta;}
     }
 
     public static void main(String[] args) {
 
+        var entrada = new Scanner(System.in);
+
         var mensagem = new Mensagens();
 
-        var contaBancariaTerminal = new ContaBancariaTerminal();
+        var conta = new ContaBancariaTerminal();
 
-        while (contaBancariaTerminal.getNumeroDaAgencia().isBlank()) {
-            var scanner = new Scanner(System.in);
+        while (conta.getNumeroDaAgencia().isBlank()) {
             mensagem.exibir(mensagem.solicitarNumeroDeAgencia);
-            contaBancariaTerminal.setNumeroDaAgencia(scanner.nextLine());
+            conta.setNumeroDaAgencia(entrada.nextLine());
 
         }
+        while (conta.getNumeroDaConta() == 0) {
+            mensagem.exibir(mensagem.solicitarNumeroDaConta);
+            conta.setNumeroDaConta(entrada.nextInt());
+        }
+
+
 
         mensagem.debugCheck();
-
-
-
     }
 }
