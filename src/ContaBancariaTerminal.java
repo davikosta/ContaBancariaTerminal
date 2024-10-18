@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class ContaBancariaTerminal {
     //declaração e inicialização de variáveis
 
-    private int numeroDaConta;
-    private String numeroDaAgencia;
+    private int numeroDaConta = 0;
+    private String numeroDaAgencia = "";
 
     //declaração de métodos
 
@@ -17,8 +17,9 @@ public class ContaBancariaTerminal {
     }
 
     public void setNumeroDaAgencia(String numeroDaAgencia) {
-        if (numeroDaAgencia.length() > 5) {
-            System.out.println("O número de caracteres não pode ultrapassar 5!");
+        var mensagem = new Mensagens();
+        if (numeroDaAgencia.length() != 5) {
+            mensagem.exibir(mensagem.erroDeQuantidadeDeCaracter);
             return;
         }
         this.numeroDaAgencia = numeroDaAgencia;
@@ -31,15 +32,18 @@ public class ContaBancariaTerminal {
 
     public static void main(String[] args) {
 
+        var mensagem = new Mensagens();
+
         var contaBancariaTerminal = new ContaBancariaTerminal();
 
-        var scanner = new Scanner(System.in);
+        while (contaBancariaTerminal.getNumeroDaAgencia().isBlank()) {
+            var scanner = new Scanner(System.in);
+            mensagem.exibir(mensagem.solicitarNumeroDeAgencia);
+            contaBancariaTerminal.setNumeroDaAgencia(scanner.nextLine());
 
-        System.out.println("Insira o número da agência, com dígito e hífen:");
+        }
 
-        contaBancariaTerminal.setNumeroDaAgencia(scanner.nextLine());
-
-        System.out.println(contaBancariaTerminal.getNumeroDaAgencia());
+        mensagem.debugCheck();
 
 
 
